@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8p-Qf-CRe" customClass="XSCountDownButton">
+                                <rect key="frame" x="237" y="283" width="126" height="34"/>
+                                <color key="backgroundColor" red="0.99222695709999997" green="0.37927506210934087" blue="0.73810210694774814" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="点击获取验证码">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="didStoryBoardTouched:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="lCL-LX-shf"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aA4-wR-7pi">
+                                <rect key="frame" x="285" y="345" width="30" height="30"/>
+                                <state key="normal" title="停止">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="didStopCount:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="mMG-QY-SZJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="aA4-wR-7pi" firstAttribute="top" secondItem="T8p-Qf-CRe" secondAttribute="bottom" constant="28" id="9JK-mc-4M4"/>
+                            <constraint firstAttribute="centerY" secondItem="T8p-Qf-CRe" secondAttribute="centerY" id="VNh-tE-msp"/>
+                            <constraint firstAttribute="centerX" secondItem="aA4-wR-7pi" secondAttribute="centerX" id="j5T-8C-xq1"/>
+                            <constraint firstAttribute="centerX" secondItem="T8p-Qf-CRe" secondAttribute="centerX" id="zFu-Wz-8mn"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="countButton2" destination="T8p-Qf-CRe" id="nF1-m8-lmG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
