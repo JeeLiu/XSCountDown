@@ -17,6 +17,8 @@
 @property (assign) int second;
 @property (assign) int totalSecond;
 
+@property (nonatomic, strong) dispatch_source_t dispatch_timer;
+
 @end
 
 
@@ -34,6 +36,56 @@
         _touchedBlock(sender,sender.tag);
     }
 }
+
+#pragma mark - gcd
+#define WEAKSELF typeof(self) __weak weakSelf = self;
+#define STRONGSELF typeof(weakSelf) __strong strongSelf = weakSelf;
+- (void)startCountWithDispatchSecond:(int)second {
+    self.totalSecond = second;
+    self.second = second;
+    
+    WEAKSELF
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    self.dispatch_timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+    dispatch_source_set_timer(_dispatch_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    dispatch_source_set_event_handler(_dispatch_timer, ^{
+        STRONGSELF
+        if( self.second <= 0 ){ //倒计时结束，关闭
+            dispatch_source_cancel(_dispatch_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                self.enabled = YES;
+                
+                self.second = self.totalSecond;
+                if (strongSelf->_didFinishedBlock) {
+                    [self setTitle:strongSelf->_didFinishedBlock(self,_totalSecond)forState:UIControlStateNormal];
+                } else  {
+                    
+                    [self setTitle:@"重新获取" forState:UIControlStateNormal];
+                }
+            });
+        } else {
+            
+            int seconds = self.second % 60;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                self.enabled = NO;
+                
+                if (strongSelf->_didChangedBlock) {
+                    [self setTitle:strongSelf->_didChangedBlock(self,seconds) forState:UIControlStateNormal];
+                } else {
+                    NSString *title = [NSString stringWithFormat:@"%d秒",_second];
+                    [self setTitle:title forState:UIControlStateNormal];
+                }
+            });
+            self.second--;
+            
+        }
+    });
+    dispatch_resume(_dispatch_timer);
+}
+
 
 #pragma mark - block
 
@@ -81,6 +133,17 @@
                     [self setTitle:@"重新获取" forState:UIControlStateNormal];
                 }
             }
+        }
+    }
+    
+    if (_dispatch_timer) {
+        dispatch_source_cancel(_dispatch_timer);
+        self.dispatch_timer = nil;
+        _second = _totalSecond;
+        if (_didFinishedBlock) {
+            [self setTitle:_didFinishedBlock(self,_totalSecond)forState:UIControlStateNormal];
+        } else  {
+            [self setTitle:@"重新获取" forState:UIControlStateNormal];
         }
     }
 }

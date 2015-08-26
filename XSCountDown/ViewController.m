@@ -12,7 +12,10 @@
 @interface ViewController ()
 
 @property (nonatomic, strong) XSCountDownButton *countButton1;
+@property (nonatomic, strong) XSCountDownButton *countButton3;
 @property (nonatomic, weak) IBOutlet XSCountDownButton *countButton2;
+
+
 
 @end
 
@@ -24,6 +27,7 @@
     
     
     [self addCountDownModel];
+    [self addDispatchCountDownModel];
 }
 
 - (void)addCountDownModel {
@@ -37,6 +41,29 @@
     [_countButton1 addToucheHandler:^(XSCountDownButton *countDownButton, NSInteger tag) {
         countDownButton.enabled = NO;
         [countDownButton startCountWithSecond:10];
+        
+        [countDownButton didChanged:^NSString *(XSCountDownButton *countDownButton, int second) {
+            NSString *title = [NSString stringWithFormat:@"%2d秒后重新获取",second];
+            return title;
+        }];
+        
+        [countDownButton didFinished:^NSString *(XSCountDownButton *countDownButton, int second) {
+            countDownButton.enabled = YES;
+            return @"点击获取验证码";
+        }];
+    }];
+}
+
+- (void)addDispatchCountDownModel {
+    self.countButton3 = [XSCountDownButton buttonWithType:UIButtonTypeCustom];
+    _countButton3.frame = CGRectMake(50, 200, 200, 32);
+    [_countButton3 setTitle:@"点击获取验证码" forState:UIControlStateNormal];
+    _countButton3.backgroundColor = [UIColor redColor];
+    [self.view addSubview:_countButton3];
+    
+    [_countButton3 addToucheHandler:^(XSCountDownButton *countDownButton, NSInteger tag) {
+        countDownButton.enabled = NO;
+        [countDownButton startCountWithDispatchSecond:10];
         
         [countDownButton didChanged:^NSString *(XSCountDownButton *countDownButton, int second) {
             NSString *title = [NSString stringWithFormat:@"%2d秒后重新获取",second];
@@ -69,6 +96,7 @@
 - (IBAction)didStopCount:(id)sender {
     [self.countButton1 stopCount];
     [self.countButton2 stopCount];
+    [self.countButton3 stopCount];
 }
 
 - (void)didReceiveMemoryWarning {

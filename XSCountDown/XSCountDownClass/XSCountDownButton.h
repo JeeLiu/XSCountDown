@@ -25,6 +25,8 @@ typedef void (^TouchUpInsideBlock)(XSCountDownButton *countDownButton,NSInteger 
 
 - (void)didChanged:(DidCountChangedBlock)didChangedBlock;
 - (void)didFinished:(DidCountFinishedBlock)didFinishedBlock;
+
+- (void)startCountWithDispatchSecond:(int)second;
 - (void)startCountWithSecond:(int)second;
 - (void)stopCount;
 
